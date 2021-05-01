@@ -31,6 +31,14 @@ public class DbInit {
                 .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Durian')").execute())
                 .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Pomelo')").execute())
                 .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Lychee')").execute())
+                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Kiwi1')").execute())
+                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Durian1')").execute())
+                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Pomelo1')").execute())
+                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Lychee1')").execute())
+                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Kiwi2')").execute())
+                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Durian2')").execute())
+                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Pomelo2')").execute())
+                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Lychee2')").execute())
                 .await().indefinitely();
     }
 }
