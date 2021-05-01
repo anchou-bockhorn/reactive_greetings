@@ -20,11 +20,11 @@ public class DbInit {
 
     void onStart(@Observes StartupEvent ev) {
         if (schemaCreate) {
-            initdb();
+            initDb();
         }
     }
 
-    private void initdb() {
+    private void initDb() {
         client.query("DROP TABLE IF EXISTS Greetings").execute()
                 .flatMap(r -> client.query("CREATE TABLE Greetings (id SERIAL PRIMARY KEY, name TEXT NOT NULL)").execute())
                 .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Kiwi')").execute())

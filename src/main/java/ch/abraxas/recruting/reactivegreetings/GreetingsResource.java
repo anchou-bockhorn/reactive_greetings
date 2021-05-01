@@ -2,7 +2,6 @@ package ch.abraxas.recruting.reactivegreetings;
 
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
-import io.vertx.mutiny.pgclient.PgPool;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -14,26 +13,21 @@ import java.net.URI;
 @Consumes(MediaType.APPLICATION_JSON)
 public class GreetingsResource {
 
-    private final PgPool dbClient;
+    private final GreetingDao greetingDao;
 
-    public GreetingsResource(PgPool dbClient) {
-        this.dbClient = dbClient;
+    public GreetingsResource(GreetingDao greetingDao) {
+        this.greetingDao = greetingDao;
     }
 
     @GET
-    public Multi<Greeting> getGreetings() {
-        return Greeting.findAll(dbClient);
-    }
-
-    @GET
-    public Multi<Greeting> getFirstGreetings(@DefaultValue("10") @QueryParam("numRecords") int valInt) {
-//        todo: limit by paging
-        return Greeting.findAll(dbClient);
+    public Multi<Greeting> getGreetings(@DefaultValue("10") @QueryParam("limit") int limit,
+                                             @DefaultValue("0") @QueryParam("offset") int offset) {
+        return greetingDao.getGreetings(limit, offset);
     }
 
     @POST
     public Uni<Response> create(Greeting greeting) {
-        return greeting.save(dbClient)
+        return greetingDao.save(greeting)
                 .onItem().transform(id -> URI.create("/greetings/" + id))
                 .onItem().transform(uri -> Response.created(uri).build());
     }
