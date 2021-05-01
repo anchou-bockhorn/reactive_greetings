@@ -22,6 +22,9 @@ public class GreetingsResource {
     @GET
     public Multi<Greeting> getGreetings(@DefaultValue("10") @QueryParam("limit") int limit,
                                              @DefaultValue("0") @QueryParam("offset") int offset) {
+        if (offset < 0 || limit < 1) {
+            throw new BadRequestException("Negative offsets and limit less than one are not allowed");
+        }
         return greetingDao.getGreetings(limit, offset);
     }
 
