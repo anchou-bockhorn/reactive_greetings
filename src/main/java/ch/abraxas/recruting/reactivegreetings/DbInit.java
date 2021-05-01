@@ -1,44 +1,39 @@
 package ch.abraxas.recruting.reactivegreetings;
 
 import io.quarkus.runtime.StartupEvent;
-import io.vertx.mutiny.pgclient.PgPool;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
+import javax.transaction.Transactional;
+import java.util.Arrays;
 
 @ApplicationScoped
 public class DbInit {
 
-    private final PgPool client;
-    private final boolean schemaCreate;
-
-    public DbInit(PgPool client, @ConfigProperty(name = "myapp.schema.create", defaultValue = "true") boolean schemaCreate) {
-        this.client = client;
-        this.schemaCreate = schemaCreate;
-    }
-
+    @Transactional
     void onStart(@Observes StartupEvent ev) {
-        if (schemaCreate) {
-            initDb();
-        }
+        initdb();
     }
 
-    private void initDb() {
-        client.query("DROP TABLE IF EXISTS Greetings").execute()
-                .flatMap(r -> client.query("CREATE TABLE Greetings (id SERIAL PRIMARY KEY, name TEXT NOT NULL)").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Kiwi')").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Durian')").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Pomelo')").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Lychee')").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Kiwi1')").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Durian1')").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Pomelo1')").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Lychee1')").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Kiwi2')").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Durian2')").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Pomelo2')").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Lychee2')").execute())
-                .await().indefinitely();
+    @Transactional
+    private void initdb() {
+        Arrays.asList(
+                "Kiwi",
+                "Durian",
+                "Pomelo",
+                "Lychee",
+                "Kiwi1",
+                "Durian1",
+                "Pomelo1",
+                "Lychee1",
+                "Kiwi2",
+                "Durian2",
+                "Pomelo2",
+                "Lychee2"
+        ).forEach(s -> {
+            Greeting g = new Greeting();
+            g.setName(s);
+            g.persist();
+        });
     }
 }
