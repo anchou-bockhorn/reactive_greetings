@@ -27,18 +27,18 @@ public class DbInit {
     private void initDb() {
         client.query("DROP TABLE IF EXISTS Greetings").execute()
                 .flatMap(r -> client.query("CREATE TABLE Greetings (id SERIAL PRIMARY KEY, name TEXT NOT NULL)").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Kiwi')").execute())
+                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Hans')").execute())
                 .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Durian')").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Pomelo')").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Lychee')").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Kiwi1')").execute())
+                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Ueli')").execute())
+                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Peter')").execute())
+                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Hans1')").execute())
                 .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Durian1')").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Pomelo1')").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Lychee1')").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Kiwi2')").execute())
+                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Ueli1')").execute())
+                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Peter1')").execute())
+                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Hans2')").execute())
                 .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Durian2')").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Pomelo2')").execute())
-                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Lychee2')").execute())
+                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Ueli2')").execute())
+                .flatMap(r -> client.query("INSERT INTO Greetings (name) VALUES ('Peter2')").execute())
                 .await().indefinitely();
     }
 }

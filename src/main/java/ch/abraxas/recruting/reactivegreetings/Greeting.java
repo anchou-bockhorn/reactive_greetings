@@ -2,9 +2,13 @@ package ch.abraxas.recruting.reactivegreetings;
 
 import io.vertx.mutiny.sqlclient.Row;
 
+import javax.validation.constraints.NotBlank;
+
 public class Greeting {
 
     private Long id;
+
+    @NotBlank
     private String name;
 
     public Long getId() {
